@@ -7,10 +7,21 @@
   </head>
   <body>
     <h1 class="header">Email Newsletter Collection</h1>
-    <input type="email" name="email" id="email_input" />
+    <input
+      id="email_input"
+      type="email"
+      name="email"
+      placeholder="joesmith@example.com"
+    />
+    <input id="phone_input" type="tel" placeholder="+1 (234) 567-8901" />
     <button id="submit_btn" type="button" onclick="submitEmail()">
       Sign up
     </button>
+
+    <a
+      href="sms:1-234-567-8901?body=Send%20this%20message%20to%20subscribe%20to%20marketing%20messages%20and%20receive%2015%25%20off!%20%5BRef%3A15off%5D"
+      >Launch Messages App</a
+    >
     <script>
       const safeTry = async fn => {
         try {
@@ -31,6 +42,30 @@
       const OoneSignalAppID = '<APP_ID>'
       //Example starts here
       const createUserAPI = `https://api.onesignal.com/apps/${OoneSignalAppID}/users`
+
+      async function submitPhone() {
+        const [error, _result] = await safeTry(() =>
+          fetch(createUserAPI, {
+            method: 'POST',
+            mode: 'no-cors',
+            body: JSON.stringify({
+              subscriptions: [
+                {
+                  type: 'SMS',
+                  token: document.getElementById('phone_input').value,
+                  enabled: false, // Needed for double opt-in
+                },
+              ],
+            }),
+          })
+        )
+
+        if (error) {
+          console.error('Failed to create user')
+        } else {
+          console.log('User created successfully')
+        }
+      }
 
       async function submitEmail() {
         const [error, _result] = await safeTry(() =>
