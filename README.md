@@ -24,20 +24,20 @@ fetch(createUserAPI, {
 
 Pass an array of Subscription objects to the Create User API to create a user who owns those subscriptions.
 
-```json
-{
-    subscriptions: [
-        {
-          type: "Email",
-          token: "iamnotwill@onesignal.com",
-          enabled: true,
-        },
-        {
-          type: "SMS",
-          token: "+12345678901",
-          enabled: false,
-        },
-    ]
+```javascript
+const payload = {
+  subscriptions: [
+    {
+      type: "Email",
+      token: "iamnotwill@onesignal.com",
+      enabled: true,
+    },
+    {
+      type: "SMS",
+      token: "+12345678901",
+      enabled: false,
+    },
+  ]
 }
 ```
 
