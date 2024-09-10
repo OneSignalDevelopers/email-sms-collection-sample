@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1 class="header">Email Newsletter Collection</h1>
+    <input type="email" name="email" id="email_input" />
+    <button id="submit_btn" type="button" onclick="submitEmail()">
+      Sign up
+    </button>
+    <script>
+      const safeTry = async fn => {
+        try {
+          const result = await fn()
+          return [null, result]
+        } catch (e) {
+          if (e instanceof Error) {
+            console.error(e.message)
+          } else if (typeof e === 'string') {
+            console.error(e)
+          } else {
+            console.error('An error occurred')
+          }
+
+          return [e, null]
+        }
+      }
+      const OoneSignalAppID = '<APP_ID>'
+      //Example starts here
+      const createUserAPI = `https://api.onesignal.com/apps/${OoneSignalAppID}/users`
+
+      async function submitEmail() {
+        const [error, _result] = await safeTry(() =>
+          fetch(createUserAPI, {
+            method: 'POST',
+            mode: 'no-cors',
+            body: JSON.stringify({
+              subscriptions: [
+                {
+                  type: 'Email',
+                  token: document.getElementById('email_input').value,
+                  enabled: true,
+                },
+              ],
+            }),
+          })
+        )
+
+        if (error) {
+          console.error('Failed to create user')
+        } else {
+          console.log('User created successfully')
+        }
+      }
+    </script>
+  </body>
+</html>
