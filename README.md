@@ -6,7 +6,7 @@ Collecting an email or SMS from a frontend website for subscribing to a newslett
 
 Exposing the REST API key publicaly is dangerous and not advised. Fortunately, our API allows you to create a user and a subscription without using the API key when identity verification is not enabled.
 
-```javascript=
+```javascript
 fetch(createUserAPI, {
     method: "POST",
     mode: "no-cors",
@@ -24,7 +24,7 @@ fetch(createUserAPI, {
 
 Pass an array of Subscription objects to the Create User API to create a user who owns those subscriptions.
 
-```json=
+```json
 {
     subscriptions: [
         {
@@ -45,7 +45,7 @@ Pass an array of Subscription objects to the Create User API to create a user wh
 * The `token` must be valid for the given `type`, e.g., email subscriptions must use a valid email address.
 * Conditionally enable the subscription upon creation with `enabled`.
 
-```javascript=
+```javascript
 fetch(createUserAPI, {
     method: "POST",
     mode: "no-cors",
@@ -63,7 +63,7 @@ fetch(createUserAPI, {
 
 ### No Access to Backend
 
-```javascript=
+```javascript
 const OoneSignalAppID = "<APP_ID>";
 const createUserAPI = `https://api.onesignal.com/apps/${OoneSignalAppID}/users`;
 const [error, _opaqueResult] = await safeTry(() =>
@@ -94,7 +94,7 @@ if (error) {
 
 If you have the ability to modify your server's CORS headers, allow our API `https://api.onesignal.com`.
 
-```javascript=
+```javascript
 const [error, result] = await safeTry(() =>
   fetch(createUserAPI, {
     method: "POST",
@@ -124,7 +124,7 @@ if (error) {
 
 Utility code to make consuming our API result slightly nicer
 
-```javascript=
+```javascript
 const safeTry = async (fn) => {
   try {
     const result = await fn();
